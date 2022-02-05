@@ -10,24 +10,15 @@ export default function App(props) {
   const[cityInfo, setCityInfo] = useState([]);
   const[cityName, setCityName] = useState(false);
 
-  const[state, setState] = useState({
-    input : [],
-    items : [],
-    cityInfo : [],
-    cityName : false
-  });
-
   useEffect(()=>{
       console.log(cityName)
           axios.get(`https://61feae06a58a4e00173c9969.mockapi.io/cities?name=${input}`).then(
             function(response){
               if(cityName){
                 console.log(input)
-                //setCityInfo(response.data)
-                setState({cityInfo : response.data});
+                setCityInfo(response.data)
               }else{
-                //setItems(response.data)
-                setState({...state,items : response.data});
+                setItems(response.data)
               }
             }
           )
