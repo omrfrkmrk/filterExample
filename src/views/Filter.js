@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
 import lodash, {debounce} from 'lodash';
-import {Input, Button, Grid, Box} from '@mui/material';
+import {Input, Button, Grid, Box, ListItem} from '@mui/material';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {getCities} from '../store/actions/CityAction';
+import styled from 'styled-components';
+
+const Scrollbar = styled.div`
+  width: 288px;
+  height: 150px;
+  overflow-y: scroll; /*auto olduğu zaman item sayısı az olduğu vakitte y eksininde scrollu kaldırıyor.*/
+  scrollbar-color: rebeccapurple green;
+  scrollbar-width: thin;
+`;
+
+
 
 export default function Filter(){
     const dispatch = useDispatch();
@@ -75,11 +86,13 @@ return(
                   {input.length > 0 && !cityName ?
                     <Box>
                         <Grid>
-                          {items.map((item, index) => (
-                          <a onClick={onItemClick}>
-                            {item.name}<br/>
-                          </a>
-                        ))}
+                          <Scrollbar>
+                            {items.map((item, index) => (
+                              <a onClick={onItemClick}>
+                                {item.name}<br/>
+                              </a>
+                            ))}
+                          </Scrollbar>
                         </Grid>
                     </Box> : cityName ?
 
@@ -91,7 +104,7 @@ return(
                               <span>Yüseklik : </span>{item.altitude}<br/>
                               <span>Boylam : </span>{item.longitude}<br/>
                               <span>Bölge : </span>{item.region}<br/>
-                            </Grid> 
+                            </Grid>
                         ))} 
                     </Grid> : null
                   }
