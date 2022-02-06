@@ -8,14 +8,19 @@ import {getCities} from '../store/actions/CityAction';
 import styled from 'styled-components';
 
 const Scrollbar = styled.div`
-  width: 288px;
+  width: 100%;
   height: 150px;
-  overflow-y: scroll; /*auto olduğu zaman item sayısı az olduğu vakitte y eksininde scrollu kaldırıyor.*/
+  overflow-y: auto; /*auto olduğu zaman item sayısı az olduğu vakitte y eksininde scrollu kaldırıyor.*/
   scrollbar-color: rebeccapurple green;
   scrollbar-width: thin;
 `;
 
-
+const HoverSpan = styled.div`
+  a:hover, span:hover {
+    color:blue;
+  }
+  cursor: pointer;
+`;
 
 export default function Filter(){
     const dispatch = useDispatch();
@@ -68,47 +73,50 @@ return(
           <Grid>
               <Grid xs={12}>
                 <Input 
-                      type="text" 
-                      className="input" 
+                      type="text"
                       value={input} 
                       onChange={onInputChange}
                       placeholder='Enter city name'
-                      
+                      sx={{ mr: 2 }}
                 />
                 <Button
                     onClick={clearData}
                     variant='outlined'
+                    sx={{ mb: 1 }}
                 >
                   Temizle
                 </Button>
               </Grid>
-                <Grid xs={12}>
-                  {input.length > 0 && !cityName ?
-                    <Box>
-                        <Grid>
-                          <Scrollbar>
-                            {items.map((item, index) => (
-                              <a onClick={onItemClick}>
+              <Grid xs={12}>
+                {input.length > 0 && !cityName ?
+                  <Box>
+                      <Grid>
+                        <Scrollbar>
+                          {items.map((item, index) => (
+                            <HoverSpan>
+                              <span onClick={onItemClick}>
                                 {item.name}<br/>
-                              </a>
-                            ))}
-                          </Scrollbar>
-                        </Grid>
-                    </Box> : cityName ?
+                              </span>
+                            </HoverSpan>
+                            
+                          ))}
+                        </Scrollbar>
+                      </Grid>
+                  </Box> : cityName ?
 
-                    <Grid>
-                        {cityInfo.map((item, index) => (
-                            <Grid>
-                              <span>Plaka : </span>{item.id}<br/>
-                              <span>İsim : </span>{item.name}<br/>
-                              <span>Yüseklik : </span>{item.altitude}<br/>
-                              <span>Boylam : </span>{item.longitude}<br/>
-                              <span>Bölge : </span>{item.region}<br/>
-                            </Grid>
-                        ))} 
-                    </Grid> : null
-                  }
-                </Grid>
+                  <Grid>
+                      {cityInfo.map((item, index) => (
+                          <Grid>
+                            <span>Plaka : </span>{item.id}<br/>
+                            <span>İsim : </span>{item.name}<br/>
+                            <span>Yüseklik : </span>{item.altitude}<br/>
+                            <span>Boylam : </span>{item.longitude}<br/>
+                            <span>Bölge : </span>{item.region}<br/>
+                          </Grid>
+                      ))} 
+                  </Grid> : null
+               }
+              </Grid>
           </Grid>
         </Grid>
     </div>
